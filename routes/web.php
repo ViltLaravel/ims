@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\SupplierModelController;
 
 
 Route::get('/', function () {
@@ -26,6 +27,10 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::get('/user', [DashboardController::class, 'index'])->name('user');
+    Route::prefix('supplier')->group(function () {
+        Route::get('/', [SupplierModelController::class, 'index'])->name('supplier.index');
+        Route::post('/', [SupplierModelController::class, 'store'])->name('supplier.store');
+    });
 });
 
 Route::middleware(['auth', 'verified', 'role:manager'])->group(function () {
