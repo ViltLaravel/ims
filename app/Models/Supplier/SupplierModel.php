@@ -20,4 +20,12 @@ class SupplierModel extends Model
         $supplier = $this->create($data);
         return $supplier;
     }
+
+    public function deleteSupplier($id) {
+        $supplier = $this->find($id);
+        if($supplier) {
+            return $supplier->delete();
+        }
+        return false;
+    }
 }

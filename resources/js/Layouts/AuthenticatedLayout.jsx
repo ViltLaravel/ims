@@ -14,7 +14,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Link, router } from '@inertiajs/react'
-
+import Toast from '@/Components/Toast'
 
 
 const navigation = [
@@ -53,6 +53,7 @@ export default function AuthenticatedLayout({ user, children }) {
     return (
         <>
             <div>
+            <Toast />
                 <Transition.Root show={sidebarOpen} as={Fragment}>
                     <Dialog className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
                         <Transition.Child

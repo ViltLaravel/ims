@@ -27,14 +27,18 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::get('/user', [DashboardController::class, 'index'])->name('user');
-    Route::prefix('supplier')->group(function () {
-        Route::get('/', [SupplierModelController::class, 'index'])->name('supplier.index');
-        Route::post('/', [SupplierModelController::class, 'store'])->name('supplier.store');
-    });
 });
 
 Route::middleware(['auth', 'verified', 'role:manager'])->group(function () {
     Route::get('/manager', [DashboardController::class, 'index'])->name('manager');
+});
+
+Route::middleware(['auth', 'verified', 'role:admin,manager'])->group(function () {
+    Route::prefix('supplier')->group(function () {
+        Route::get('/', [SupplierModelController::class, 'index'])->name('supplier.index');
+        Route::post('/', [SupplierModelController::class, 'store'])->name('supplier.store');
+        Route::delete('/{id}', [SupplierModelController::class, 'destroy'])->name('supplier.delete');
+    });
 });
 
 Route::middleware('auth')->group(function () {

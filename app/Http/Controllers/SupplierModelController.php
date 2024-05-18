@@ -35,9 +35,11 @@ class SupplierModelController extends Controller
         try {
             $data = $this->supplier->createSupplier($request->validated());
             if($data) {
-                return redirect()->route('supplier.index');
+                return redirect()->route('supplier.index')->with('success', 'Supplier added successfully.');
+            }else {
+                return redirect()->route('supplier.index')->with('error', 'Failed creating supplier!');
             }
-            return redirect()->route('');
+
         } catch (\Throwable $th) {
             return redirect()->route('', $th->getMessage());
         }
@@ -70,8 +72,17 @@ class SupplierModelController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SupplierModel $supplierModel)
+    public function destroy($id)
     {
-        //
+        try {
+            $supplier = $this->supplier->deleteSupplier($id);
+            if($supplier) {
+                return redirect()->route('supplier.index')->with('success', 'Supplier deleted successfully.');
+            }else {
+                return redirect()->route('supplier.index')->with('error', 'Supplier not found!');
+            }
+        } catch (\Throwable $th) {
+            return redirect()->route('supplier.index')->with('success', $th->getMessage());
+        }
     }
 }
